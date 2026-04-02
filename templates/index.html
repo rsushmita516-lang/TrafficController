@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aircraft Landing Decision Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="hero__kicker">Pilot Training Console</p>
+        <h1>Automated Aircraft Landing Decision System</h1>
+        <p class="hero__subtitle">
+          Enter flight details and environment conditions, then evaluate whether the flight should land, hold, or divert.
+        </p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>Pilot Flight Details</h2>
+        <form method="post" class="form-grid">
+          <label>
+            Flight Number
+            <input name="flight_number" value="{{ form.flight_number }}" required />
+          </label>
+          <label>
+            Airline
+            <input name="airline" value="{{ form.airline }}" required />
+          </label>
+          <label>
+            Aircraft Type
+            <input name="aircraft_type" value="{{ form.aircraft_type }}" required />
+          </label>
+          <label>
+            Scheduled Time
+            <input name="scheduled_time" value="{{ form.scheduled_time }}" placeholder="HH:MM" />
+          </label>
+          <label>
+            Origin
+            <input name="origin" value="{{ form.origin }}" required />
+          </label>
+          <label>
+            Destination
+            <input name="destination" value="{{ form.destination }}" required />
+          </label>
+          <label class="full">
+            Gate / Bay
+            <input name="gate" value="{{ form.gate }}" />
+          </label>
+
+          <h3 class="full">Environment and Aircraft Inputs</h3>
+
+          <label>
+            Wind Speed (km/h)
+            <input type="number" min="0" max="80" name="wind_speed" value="{{ form.wind_speed }}" />
+          </label>
+          <label>
+            Crosswind Speed (km/h)
+            <input type="number" min="0" max="60" name="crosswind_speed" value="{{ form.crosswind_speed }}" />
+          </label>
+          <label>
+            Visibility (km)
+            <input type="number" min="0.5" max="10" step="0.1" name="visibility" value="{{ form.visibility }}" />
+          </label>
+          <label>
+            Fuel Level (%)
+            <input type="number" min="5" max="100" name="fuel_level" value="{{ form.fuel_level }}" />
+          </label>
+
+          <label class="full">
+            Runway Condition
+            <select name="runway_condition">
+              {% for runway in ['Dry', 'Wet', 'Snow', 'Icy'] %}
+              <option value="{{ runway }}" {% if form.runway_condition == runway %}selected{% endif %}>{{ runway }}</option>
+              {% endfor %}
+            </select>
+          </label>
+
+          <div class="checks full">
+            <label><input type="checkbox" name="storm_nearby" {% if form.storm_nearby %}checked{% endif %} /> Storm Nearby</label>
+            <label><input type="checkbox" name="landing_gear_ready" {% if form.landing_gear_ready %}checked{% endif %} /> Landing Gear Ready</label>
+            <label><input type="checkbox" name="hydraulic_pressure_ok" {% if form.hydraulic_pressure_ok %}checked{% endif %} /> Hydraulic Pressure OK</label>
+            <label><input type="checkbox" name="autopilot_ok" {% if form.autopilot_ok %}checked{% endif %} /> Autopilot OK</label>
+          </div>
+
+          <div class="buttons full">
+            <button type="submit" name="action" value="evaluate" class="btn btn-primary">Evaluate Landing</button>
+            <button type="submit" name="action" value="simulate" class="btn btn-secondary">Simulate Conditions</button>
+            <button type="submit" name="action" value="reset" class="btn btn-ghost">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card output">
+        <h2>Decision Console</h2>
+
+        {% if result %}
+        <p class="flight-line">
+          {{ result.flight.airline }} | Flight {{ result.flight.flight_number }} | {{ result.flight.origin }} to {{ result.flight.destination }} | STD {{ result.flight.scheduled_time }} | Gate {{ result.flight.gate }}
+        </p>
+
+        <div class="decision {{ result.badge_class }}">{{ result.decision }}</div>
+        <p class="score">Safety Score: {{ result.score }}/100</p>
+
+        <h3>Reasons</h3>
+        <ul>
+          {% for reason in result.reasons %}
+          <li>{{ reason }}</li>
+          {% endfor %}
+        </ul>
+
+        <h3>Scenario Summary</h3>
+        <dl>
+          <dt>Wind Speed</dt><dd>{{ result.scenario.wind_speed }} km/h</dd>
+          <dt>Crosswind</dt><dd>{{ result.scenario.crosswind_speed }} km/h</dd>
+          <dt>Visibility</dt><dd>{{ result.scenario.visibility }} km</dd>
+          <dt>Fuel</dt><dd>{{ result.scenario.fuel_level }}%</dd>
+          <dt>Runway</dt><dd>{{ result.scenario.runway_condition }}</dd>
+          <dt>Storm Nearby</dt><dd>{{ 'Yes' if result.scenario.storm_nearby else 'No' }}</dd>
+          <dt>Gear Ready</dt><dd>{{ 'Yes' if result.scenario.landing_gear_ready else 'No' }}</dd>
+          <dt>Hydraulics OK</dt><dd>{{ 'Yes' if result.scenario.hydraulic_pressure_ok else 'No' }}</dd>
+          <dt>Autopilot OK</dt><dd>{{ 'Yes' if result.scenario.autopilot_ok else 'No' }}</dd>
+        </dl>
+        {% else %}
+        <p class="placeholder">Press Evaluate Landing to generate a recommendation.</p>
+        {% endif %}
+
+        <section class="notes">
+          <h3>Training Notes</h3>
+          <div class="notes-scroll">
+            <p>1. Fill in flight details first so each scenario has context.</p>
+            <p>2. Higher wind, crosswind, and lower visibility increase risk.</p>
+            <p>3. Gear and hydraulic checks are critical safety gates.</p>
+            <p>4. Use Simulate Conditions for quick practice rounds.</p>
+            <p>5. Compare the score and reasons before making a decision.</p>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>

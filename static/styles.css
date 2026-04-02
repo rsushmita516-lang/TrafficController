@@ -1,0 +1,271 @@
+:root {
+  --bg: #f0f4f8;
+  --panel: #ffffff;
+  --ink: #142436;
+  --muted: #4a637a;
+  --line: #d6e0ea;
+  --brand: #0e3a66;
+  --brand-soft: #e3edf7;
+  --ok: #1d7a39;
+  --warn: #8a6d00;
+  --hold: #87480f;
+  --danger: #a61b1b;
+  --emergency: #b35600;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at top right, #dbe9f7 0%, var(--bg) 55%);
+}
+
+.hero {
+  background: linear-gradient(110deg, #0b2f4e, #124d7e 70%, #2f6f9f);
+  color: #fff;
+  padding: 2rem 1.2rem;
+}
+
+.hero__content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero__kicker {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b8d8f1;
+  font-size: 0.78rem;
+}
+
+.hero h1 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: clamp(1.55rem, 2.3vw, 2.4rem);
+}
+
+.hero__subtitle {
+  margin: 0;
+  color: #d9e9f7;
+  max-width: 760px;
+}
+
+.layout {
+  max-width: 1150px;
+  margin: 1rem auto 2rem;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(17, 38, 61, 0.08);
+  padding: 1rem;
+}
+
+h2 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.9rem;
+  color: var(--brand);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 0.85rem;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.form-grid input,
+.form-grid select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.96rem;
+  background: #fff;
+  color: var(--ink);
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  outline: 2px solid #8ab3d8;
+  border-color: #7da7cf;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.form-grid h3 {
+  margin: 0.15rem 0;
+  color: var(--brand);
+}
+
+.checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(190px, 1fr));
+  gap: 0.45rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.checks label {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.92rem;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.62rem 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #2f6f9f;
+  color: #fff;
+}
+
+.btn-ghost {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.flight-line {
+  background: #f2f8ff;
+  border: 1px solid #dbe8f5;
+  border-radius: 10px;
+  padding: 0.7rem;
+  margin-top: 0;
+  color: #254965;
+  font-size: 0.9rem;
+}
+
+.decision {
+  border-radius: 10px;
+  padding: 0.8rem;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.status-clear {
+  background: var(--ok);
+}
+
+.status-caution {
+  background: var(--warn);
+}
+
+.status-hold {
+  background: var(--hold);
+}
+
+.status-divert {
+  background: var(--danger);
+}
+
+.status-emergency {
+  background: var(--emergency);
+}
+
+.score {
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.output ul {
+  margin: 0.3rem 0 0.8rem;
+  padding-left: 1.15rem;
+}
+
+.output li {
+  margin-bottom: 0.3rem;
+}
+
+.output dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.8rem;
+  margin: 0;
+}
+
+.output dt {
+  color: var(--muted);
+}
+
+.output dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.notes {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+}
+
+.notes-scroll {
+  max-height: 140px;
+  overflow-y: auto;
+  background: #f8fbff;
+  border: 1px solid #dbe8f5;
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+}
+
+.notes-scroll p {
+  margin: 0.45rem 0;
+  color: var(--muted);
+}
+
+.placeholder {
+  color: var(--muted);
+  background: #f8fbff;
+  border: 1px dashed #c8d9ea;
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid,
+  .checks {
+    grid-template-columns: 1fr;
+  }
+}
