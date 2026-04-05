@@ -74,6 +74,7 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  transform: scaleX(-1);
   filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.35));
 }
 
@@ -482,7 +483,7 @@ body {
 
 @keyframes planeFly {
   0% {
-    transform: translateX(0) translateY(11px) rotate(3deg);
+    transform: translateX(0) translateY(10px) rotate(1.5deg);
     opacity: 0;
   }
   10% {
@@ -493,11 +494,11 @@ body {
     opacity: 1;
   }
   70% {
-    transform: translateX(86vw) translateY(-5px) rotate(-2deg);
+    transform: translateX(86vw) translateY(-4px) rotate(-1deg);
     opacity: 1;
   }
   100% {
-    transform: translateX(125vw) translateY(-11px) rotate(-4deg);
+    transform: translateX(125vw) translateY(-9px) rotate(-1.5deg);
     opacity: 0;
   }
 }
