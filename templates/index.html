@@ -4,23 +4,66 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aircraft Landing Decision Simulator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v=styles_version) }}" />
   </head>
   <body>
     <header class="hero">
       <div class="hero__content">
-        <p class="hero__kicker">Pilot Training Console</p>
-        <h1>Automated Aircraft Landing Decision System</h1>
-        <p class="hero__subtitle">
-          Enter flight details and environment conditions, then evaluate whether the flight should land, hold, or divert.
-        </p>
+        <div class="topbar">
+          <div class="brand-block">
+            <p class="hero__kicker">Flight Operations Trainer</p>
+            <h1>Automated Aircraft Landing Decision System</h1>
+            <p class="hero__subtitle">
+              Airline-style decision support dashboard with beginner-friendly controls.
+            </p>
+          </div>
+          <div class="status-pills" aria-label="system status">
+            <span class="pill">OPS ONLINE</span>
+            <span class="pill">WX FEED READY</span>
+            <span class="pill">SIM MODE</span>
+          </div>
+        </div>
+
+        <div class="sky-track" aria-hidden="true">
+          <span class="plane-contrail"></span>
+          <div class="plane-wrap">
+            <svg class="plane-svg" viewBox="0 0 140 70" role="presentation" focusable="false">
+              <path d="M8 36 L62 30 L92 12 L112 14 L94 30 L122 32 L132 36 L122 40 L94 42 L112 58 L92 60 L62 42 L8 36 Z" />
+            </svg>
+          </div>
+        </div>
       </div>
     </header>
 
     <main class="layout">
-      <section class="card">
-        <h2>Pilot Flight Details</h2>
+      <section class="panel panel-form">
+        <div class="panel-header">
+          <h2>Flight Data Entry</h2>
+          <p>Fill route, aircraft and weather details, then run a landing decision.</p>
+        </div>
+
+        <div class="ops-strip" aria-label="operations highlights">
+          <div class="ops-box">
+            <span class="ops-label">Wind</span>
+            <span class="ops-value">{{ form.wind_speed }} km/h</span>
+          </div>
+          <div class="ops-box">
+            <span class="ops-label">Visibility</span>
+            <span class="ops-value">{{ form.visibility }} km</span>
+          </div>
+          <div class="ops-box">
+            <span class="ops-label">Fuel</span>
+            <span class="ops-value">{{ form.fuel_level }}%</span>
+          </div>
+          <div class="ops-box">
+            <span class="ops-label">Runway</span>
+            <span class="ops-value">{{ form.runway_condition }}</span>
+          </div>
+        </div>
+
         <form method="post" class="form-grid">
+          <h3 class="full section-title">Pilot Flight Details</h3>
+
           <label>
             Flight Number
             <input name="flight_number" value="{{ form.flight_number }}" required />
@@ -50,7 +93,7 @@
             <input name="gate" value="{{ form.gate }}" />
           </label>
 
-          <h3 class="full">Environment and Aircraft Inputs</h3>
+          <h3 class="full section-title">Environment and Aircraft Inputs</h3>
 
           <label>
             Wind Speed (km/h)
@@ -93,8 +136,16 @@
         </form>
       </section>
 
-      <aside class="card output">
-        <h2>Decision Console</h2>
+      <aside class="panel panel-console output">
+        <div class="panel-header">
+          <h2>Approach Decision Console</h2>
+          <p>Live recommendation view with operational reasoning.</p>
+        </div>
+
+        <div class="runway-visual" aria-hidden="true">
+          <div class="runway-line"></div>
+          <div class="runway-tag">RWY OPS</div>
+        </div>
 
         {% if result %}
         <p class="flight-line">

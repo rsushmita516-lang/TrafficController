@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import random
 import socket
+from pathlib import Path
 from dataclasses import asdict, dataclass
 
 from flask import Flask, render_template, request
@@ -225,6 +226,15 @@ def choose_open_port(start_port: int = 5000, max_checks: int = 20) -> int:
     return start_port
 
 
+def get_styles_version() -> str:
+    """Return a cache-busting version based on styles.css modified time."""
+
+    css_file = Path(app.root_path) / "static" / "styles.css"
+    if css_file.exists():
+        return str(int(css_file.stat().st_mtime))
+    return "1"
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Render page and process Evaluate/Simulate/Reset actions."""
@@ -239,7 +249,12 @@ def index():
             form = random_form_data()
         elif action == "reset":
             form = default_form_data()
-            return render_template("index.html", form=form, result=None)
+            return render_template(
+                "index.html",
+                form=form,
+                result=None,
+                styles_version=get_styles_version(),
+            )
         else:
             form = parse_form(request.form)
 
@@ -276,7 +291,12 @@ def index():
             "scenario": asdict(scenario),
         }
 
-    return render_template("index.html", form=form, result=result)
+    return render_template(
+        "index.html",
+        form=form,
+        result=result,
+        styles_version=get_styles_version(),
+    )
 
 
 if __name__ == "__main__":
